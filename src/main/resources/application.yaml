@@ -1,0 +1,5 @@
+spring:
+  application.name: "kafka-consumer-postgres"
+  kafka:
+    boostrap-servers: "http://localhost:9092"
+    consumer-group: "document-consumer"
