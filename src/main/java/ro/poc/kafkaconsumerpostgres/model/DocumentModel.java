@@ -13,6 +13,7 @@ public class DocumentModel {
     private String description;
     private String author;
     private String content;
-    private Long pages;
-    private LocalDateTime createdDate;
+    private Integer pages;
+    private LocalDateTime sentDate;
+    private DocumentEventType documentEventType;
 }

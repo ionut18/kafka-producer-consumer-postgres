@@ -3,3 +3,9 @@ spring:
   kafka:
     boostrap-servers: "http://localhost:9092"
     consumer-group: "document-consumer"
+  datasource:
+    url: "jdbc:postgresql://localhost:5432/kafka-poc"
+    username: "kafka-poc"
+    password: "kafka-poc"
+    driver-class-name: org.postgresql.Driver
+
