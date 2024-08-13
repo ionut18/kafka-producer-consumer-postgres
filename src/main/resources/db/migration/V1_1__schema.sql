@@ -1,4 +1,3 @@
--- todo: for future -> flyway
 create table document
 (
     id                  varchar(50) not null

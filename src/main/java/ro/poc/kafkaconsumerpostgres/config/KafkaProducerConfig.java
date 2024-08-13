@@ -11,6 +11,7 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.core.ProducerFactory;
 import org.springframework.kafka.support.serializer.JsonSerializer;
 import ro.poc.kafkaconsumerpostgres.model.DocumentModel;
+import ro.poc.kafkaconsumerpostgres.model.KafkaEvent;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -23,7 +24,7 @@ public class KafkaProducerConfig {
     private String bootstrapServers;
 
     @Bean
-    public ProducerFactory<String, DocumentModel> consumerFactory() {
+    public ProducerFactory<String, KafkaEvent<DocumentModel>> producerFactory() {
         Map<String, Object> props = new HashMap<>();
         props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
         props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
@@ -32,7 +33,7 @@ public class KafkaProducerConfig {
     }
 
     @Bean
-    public KafkaTemplate<String, DocumentModel> kafkaTemplate() {
-        return new KafkaTemplate<>(consumerFactory());
+    public KafkaTemplate<String, KafkaEvent<DocumentModel>> kafkaTemplate() {
+        return new KafkaTemplate<>(producerFactory());
     }
 }

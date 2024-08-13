@@ -14,7 +14,6 @@ public class DocumentMapper {
                 .description(model.getDescription())
                 .author(model.getAuthor())
                 .sentDate(model.getSentDate())
-                .documentEventType(model.getDocumentEventType())
                 .build();
     }
 }
