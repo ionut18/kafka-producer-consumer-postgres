@@ -1,6 +1,7 @@
 package ro.poc.kafkaconsumerpostgres.config;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import lombok.RequiredArgsConstructor;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,19 +19,16 @@ import java.util.Map;
 
 @EnableKafka
 @Configuration
+@RequiredArgsConstructor
 public class KafkaConsumerConfig {
 
-    @Value("${spring.kafka.boostrap-servers}")
-    private String bootstrapServers;
-
-    @Value("${spring.kafka.consumer-group}")
-    private String consumerGroup;
+    private final KafkaTopicsConfig kafkaTopicsConfig;
 
     @Bean
     public ConsumerFactory<String, KafkaEvent<DocumentModel>> consumerFactory() {
         Map<String, Object> props = new HashMap<>();
-        props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
-        props.put(ConsumerConfig.GROUP_ID_CONFIG, consumerGroup);
+        props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaTopicsConfig.getBootstrapServers());
+        props.put(ConsumerConfig.GROUP_ID_CONFIG, kafkaTopicsConfig.getConsumerGroup());
 
         return new DefaultKafkaConsumerFactory<>(props,
                 new StringDeserializer(),
@@ -41,6 +39,14 @@ public class KafkaConsumerConfig {
     public ConcurrentKafkaListenerContainerFactory<String, KafkaEvent<DocumentModel>> kafkaListenerContainerFactory() {
         ConcurrentKafkaListenerContainerFactory<String, KafkaEvent<DocumentModel>> factory = new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(consumerFactory());
+        return factory;
+    }
+
+    @Bean
+    public ConcurrentKafkaListenerContainerFactory<String, KafkaEvent<DocumentModel>> kafkaBatchListenerContainerFactory() {
+        ConcurrentKafkaListenerContainerFactory<String, KafkaEvent<DocumentModel>> factory = new ConcurrentKafkaListenerContainerFactory<>();
+        factory.setConsumerFactory(consumerFactory());
+        factory.setBatchListener(true);
         return factory;
     }
 }

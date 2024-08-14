@@ -23,12 +23,12 @@ public class DocumentProducer {
     private final KafkaTopicsConfig kafkaTopicsConfig;
 
     public Boolean sendEvents(final List<KafkaEvent<DocumentModel>> events) {
-        return events.stream().map(this::send).anyMatch(FALSE::equals);
+        return events.stream().map(this::send).noneMatch(FALSE::equals);
     }
 
     public Boolean send(final KafkaEvent<DocumentModel> event) {
         try {
-            kafkaTemplate.send(kafkaTopicsConfig.getDocumentsTopicName(),
+            kafkaTemplate.send(kafkaTopicsConfig.getDocumentsTopic(),
                     UUID.randomUUID().toString(),
                     event);
             log.info("Document sent successfully {}", event);

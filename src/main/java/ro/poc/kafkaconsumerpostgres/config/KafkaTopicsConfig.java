@@ -8,7 +8,16 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class KafkaTopicsConfig {
 
-    @Value("${kafka.topics.documents.name}")
-    private String documentsTopicName;
+    @Value("${spring.kafka.boostrap-servers}")
+    private String bootstrapServers;
+
+    @Value("${spring.kafka.topics.documents}")
+    private String documentsTopic;
+
+    @Value("${spring.kafka.consumer-group}")
+    private String consumerGroup;
+
+    @Value("${spring.kafka.consumer-group-batch}")
+    private String consumerGroupBatch;
 
 }
