@@ -7,29 +7,24 @@ import org.springframework.web.bind.annotation.*;
 import ro.poc.kafkaconsumerpostgres.messaging.EventsProducer;
 import ro.poc.kafkaconsumerpostgres.model.DocumentModel;
 import ro.poc.kafkaconsumerpostgres.model.KafkaEvent;
+import ro.poc.kafkaconsumerpostgres.model.OrderModel;
 import ro.poc.kafkaconsumerpostgres.service.EventGeneratorService;
 
 import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/document")
-public class DocumentController {
+@RequestMapping("/order")
+public class OrderController {
 
-    private static final Logger log = LoggerFactory.getLogger(DocumentController.class);
+    private static final Logger log = LoggerFactory.getLogger(OrderController.class);
     private final EventsProducer eventsProducer;
     private final EventGeneratorService eventGeneratorService;
 
-    @PostMapping("/create")
-    public String createDocument(@RequestBody final KafkaEvent<DocumentModel> documentModel) {
-        boolean success = eventsProducer.send(documentModel);
-        return success ? "Success" : "Failed";
-    }
-
     @PostMapping("/generate")
     public String generateDocuments(@RequestParam final Integer size) {
-        final List<KafkaEvent<DocumentModel>> kafkaEvents = eventGeneratorService.generateDocuments(size);
-        log.info("Generated {} documents", kafkaEvents.size());
+        final List<KafkaEvent<OrderModel>> kafkaEvents = eventGeneratorService.generateOrders(size);
+        log.info("Generated {} orders", kafkaEvents.size());
         final Boolean success = eventsProducer.send(kafkaEvents);
         return success ? "Success" : "Failed";
     }

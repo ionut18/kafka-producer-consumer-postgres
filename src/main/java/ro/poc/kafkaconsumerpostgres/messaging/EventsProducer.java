@@ -5,7 +5,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 import ro.poc.kafkaconsumerpostgres.config.KafkaTopicsConfig;
-import ro.poc.kafkaconsumerpostgres.model.DocumentModel;
 import ro.poc.kafkaconsumerpostgres.model.KafkaEvent;
 
 import java.util.List;
@@ -17,16 +16,16 @@ import static java.lang.Boolean.TRUE;
 @Component
 @RequiredArgsConstructor
 @Slf4j
-public class DocumentProducer {
+public class EventsProducer {
 
-    private final KafkaTemplate<String, KafkaEvent<DocumentModel>> kafkaTemplate;
+    private final KafkaTemplate<String, KafkaEvent<?>> kafkaTemplate;
     private final KafkaTopicsConfig kafkaTopicsConfig;
 
-    public Boolean sendEvents(final List<KafkaEvent<DocumentModel>> events) {
+    public Boolean send(final List<? extends KafkaEvent<?>> events) {
         return events.stream().map(this::send).noneMatch(FALSE::equals);
     }
 
-    public Boolean send(final KafkaEvent<DocumentModel> event) {
+    public Boolean send(final KafkaEvent<?> event) {
         try {
             kafkaTemplate.send(kafkaTopicsConfig.getDocumentsTopic(),
                     UUID.randomUUID().toString(),
