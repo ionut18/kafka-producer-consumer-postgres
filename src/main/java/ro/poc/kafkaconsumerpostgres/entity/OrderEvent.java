@@ -8,15 +8,18 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
 @Data
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class DocumentEvent {
+@Builder
+public class OrderEvent {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -29,13 +32,15 @@ public class DocumentEvent {
     private String creatorAppVersion;
     private String environment;
 
-    private String documentId;
-    private String title;
-    private String description;
-    private String author;
-    private String content;
-    private Integer pages;
-    private LocalDateTime sentDate;
+    private String orderId;
+    private String customerId;
+    private BigDecimal totalValue;
+    private LocalDateTime date;
+    private String paymentMethod;
+
+    @OneToMany(mappedBy = "orderEvent", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
+    private Set<ProductEvent> productEvents = new HashSet<>();
 
     @CreationTimestamp
     @Column(updatable = false)
@@ -43,4 +48,14 @@ public class DocumentEvent {
 
     @UpdateTimestamp
     private LocalDateTime updatedAt;
+
+    public void addProductEvent(final ProductEvent productEvent) {
+        productEvents.add(productEvent);
+        productEvent.setOrderEvent(this);
+    }
+
+    public void removeProductEvent(final ProductEvent productEvent) {
+        productEvents.remove(productEvent);
+        productEvent.setOrderEvent(null);
+    }
 }

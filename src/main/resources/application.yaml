@@ -1,9 +1,10 @@
 spring:
   application.name: "kafka-consumer-postgres"
   kafka:
-    boostrap-servers: "http://localhost:9092"
+    boostrap-servers: "http://localhost:19092"
     topics:
       documents: "${DOCUMENTS_TOPIC:documents}"
+      orders: "${ORDERS_TOPIC:orders}"
     consumer-group: "${CONSUMER_GROUP:kafka-postgres-group}"
     consumer-group-batch: "${CONSUMER_GROUP_BATCH:kafka-postgres-group-batch}"
     consumer:

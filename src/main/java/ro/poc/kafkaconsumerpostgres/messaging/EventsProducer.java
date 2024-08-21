@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
-import ro.poc.kafkaconsumerpostgres.config.KafkaTopicsConfig;
 import ro.poc.kafkaconsumerpostgres.model.KafkaEvent;
 
 import java.util.List;
@@ -19,15 +18,14 @@ import static java.lang.Boolean.TRUE;
 public class EventsProducer {
 
     private final KafkaTemplate<String, KafkaEvent<?>> kafkaTemplate;
-    private final KafkaTopicsConfig kafkaTopicsConfig;
 
-    public Boolean send(final List<? extends KafkaEvent<?>> events) {
-        return events.stream().map(this::send).noneMatch(FALSE::equals);
+    public Boolean send(final List<? extends KafkaEvent<?>> events, final String topic) {
+        return events.stream().map(event -> send(event, topic)).noneMatch(FALSE::equals);
     }
 
-    public Boolean send(final KafkaEvent<?> event) {
+    public Boolean send(final KafkaEvent<?> event, final String topic) {
         try {
-            kafkaTemplate.send(kafkaTopicsConfig.getDocumentsTopic(),
+            kafkaTemplate.send(topic,
                     UUID.randomUUID().toString(),
                     event);
             log.info("Document sent successfully {}", event);

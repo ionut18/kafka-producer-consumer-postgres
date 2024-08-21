@@ -14,6 +14,9 @@ public class KafkaTopicsConfig {
     @Value("${spring.kafka.topics.documents}")
     private String documentsTopic;
 
+    @Value("${spring.kafka.topics.orders}")
+    private String ordersTopic;
+
     @Value("${spring.kafka.consumer-group}")
     private String consumerGroup;
 
