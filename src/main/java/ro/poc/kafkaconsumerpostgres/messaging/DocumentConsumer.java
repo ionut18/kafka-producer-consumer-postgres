@@ -23,7 +23,7 @@ public class DocumentConsumer {
     private final KafkaTopicsConfig kafkaTopicsConfig;
 
     @KafkaListener(topics = "#{kafkaTopicsConfig.getDocumentsTopic()}",
-            containerFactory = "kafkaDocumentListenerContainerFactory")
+            containerFactory = "kafkaListenerContainerFactory")
     public void consume(final ConsumerRecord<String, KafkaEvent<DocumentModel>> record,
                         @Header(KafkaHeaders.GROUP_ID) final String groupId) {
         log.info("[{}] Consuming message {} ", groupId, record.value().toString());
@@ -37,7 +37,7 @@ public class DocumentConsumer {
 
     @KafkaListener(topics = "#{kafkaTopicsConfig.getDocumentsTopic()}",
             groupId = "#{kafkaTopicsConfig.getConsumerGroupBatch()}",
-            containerFactory = "kafkaDocumentBatchListenerContainerFactory")
+            containerFactory = "kafkaBatchListenerContainerFactory")
     public void consumeBatch(final List<ConsumerRecord<String, KafkaEvent<DocumentModel>>> records) {
         log.info("[{}] Consuming {} messages", kafkaTopicsConfig.getConsumerGroupBatch(), records.size());
         try {

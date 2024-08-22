@@ -22,7 +22,7 @@ public class OrderConsumer {
 
     @KafkaListener(topics = "#{kafkaTopicsConfig.getOrdersTopic()}",
             groupId = "#{kafkaTopicsConfig.getConsumerGroupBatch()}",
-            containerFactory = "kafkaOrderBatchListenerContainerFactory")
+            containerFactory = "kafkaBatchListenerContainerFactory")
     public void consumeBatchOrders(final List<ConsumerRecord<String, KafkaEvent<OrderModel>>> records) {
         log.info("[{}] Consuming {} messages", kafkaTopicsConfig.getConsumerGroupBatch(), records.size());
         try {
