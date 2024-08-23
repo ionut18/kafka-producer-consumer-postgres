@@ -1,6 +1,6 @@
-# kafka-consumer-postgres
-Kafka consumer that saves data in postgres
-API for generating dummy messages and push them to kafka
+# kafka-producer-consumer-postgres
+- API for generating dummy messages and push them to kafka
+- Kafka consumer that saves data in postgres
 
 ## Technologies used:
 - Java
@@ -8,3 +8,4 @@ API for generating dummy messages and push them to kafka
 - Postgres
 - Flyway
 - Kafka
+- Kafka UI

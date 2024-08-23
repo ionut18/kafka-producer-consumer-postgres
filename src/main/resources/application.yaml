@@ -1,5 +1,5 @@
 spring:
-  application.name: "kafka-consumer-postgres"
+  application.name: "kafka-producer-consumer-postgres"
   kafka:
     boostrap-servers: "http://localhost:19092"
     topics:

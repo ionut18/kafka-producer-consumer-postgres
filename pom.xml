@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>ro.poc</groupId>
-    <artifactId>kafka-consumer-postgres</artifactId>
+    <artifactId>kafka-producer-consumer-postgres</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>kafka-consumer-postgres</name>
-    <description>kafka-consumer-postgres</description>
+    <name>kafka-producer-consumer-postgres</name>
+    <description>kafka-producer-consumer-postgres</description>
     <properties>
         <java.version>22</java.version>
     </properties>
