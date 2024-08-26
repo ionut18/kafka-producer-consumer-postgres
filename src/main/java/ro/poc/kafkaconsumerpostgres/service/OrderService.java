@@ -26,7 +26,6 @@ public class OrderService {
 
     @Transactional
     public void saveAll(final List<ConsumerRecord<String, KafkaEvent<OrderModel>>> records) {
-        //todo: validators
         final Set<OrderEvent> orderEvents = records.stream()
                 .filter(Objects::nonNull)
                 .map(record -> OrderMapper.toOrderEvent(record.value()))
